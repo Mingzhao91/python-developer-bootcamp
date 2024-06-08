@@ -15,3 +15,16 @@ for number in numbers:
        break
 else:
    print('All those numbers are fine')
+
+
+name1 = input('Enter your name: ')
+name1_capitalized = name1.capitalize()
+name2 = input('Enter your name: ')
+name2_capitalized = name2.capitalize()
+name3 = input('Enter your name: ')
+name3_capitalized = name3.capitalize()
+
+
+print(f"The names are: {name1_capitalized}, {name2_capitalized} and {name3_capitalized}")
+
+
