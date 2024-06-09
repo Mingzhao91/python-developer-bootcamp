@@ -30,6 +30,30 @@ def cooking_end_time(start_time, duration):
 
 
 
+def move_forward():
+  print("moving forward")
+
+def turn(direction):
+  print(f"turning {direction}")
+
+def start_engine():
+  print('start engine')
+
+def stop_engine():
+  print('stopping engine')
+
+destination = input('where do you want to go?')
+
+start_engine()
+move_forward()
+
+if destination == 'school':
+  turn('right')
+  print('we arrived at school!')
+elif destination == 'grocery store':
+  turn('left')
+  print('we arrived at grocery store!')
+
 
 
 
