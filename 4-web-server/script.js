@@ -1,3 +1,22 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const button1 = document.getElementById("myButton");
+
+  function logEvent(event) {
+    console.log("Event type: ", event.type);
+  }
+
+  button1.addEventListener("click", logEvent);
+
+  function removeElement(event) {
+    if (event.key == "Backspace") {
+      const nextParagraph = document.getElementsByTagName("p");
+      document.body.removeChild(nextParagraph);
+    }
+  }
+
+  document.addEventListener("keydown", removeElement);
+});
+
 function showAlert() {
   const subTitle = document.getElementById("subheader");
   console.log(subTitle);
