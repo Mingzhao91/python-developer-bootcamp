@@ -50,7 +50,20 @@
 
 
     <div id="lists-container">
-      <ul id="task-list-1"
+      <ul id="task-list-2"
+          class="task-list list-group">
+        {% if tasks %}
+        {% for task in tasks %}
+        <!-- go to the urls.py, look for a path with the name, task,   -->
+        <li><a href="{% url 'task' task.id %}">
+            {{ task.name }}
+          </a></li>{% endfor %}
+        {% else %}
+        <p>No tasks left, hooray!</p>
+        {% endif %}
+      </ul>
+
+      <!-- <ul id="task-list-1"
           class="task-list list-group">
         <h4>Prority 1</h4>
       </ul>
@@ -63,7 +76,7 @@
       <ul id="task-list-3"
           class="task-list list-group">
         <h4>Prority 3</h4>
-      </ul>
+      </ul> -->
 
     </div>
   </div>
