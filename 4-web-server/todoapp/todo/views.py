@@ -5,6 +5,7 @@ from .forms import TaskForm
 from .models import TaskModel
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
@@ -38,7 +39,7 @@ def index(request):
   #   request.session['tasks'] = []
 
   # get tasks from table
-  tasks = TaskModel.objects.all()
+  tasks = TaskModel.objects.filter(user=request.user)
 
   ctx = {
     "tasks": tasks, #request.session['tasks'],
@@ -48,14 +49,29 @@ def index(request):
 
   return render(request, "todo/index.html", ctx)
 
+
+def register_user(request):
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    print(form)
+    if form.is_valid():
+      form.save()
+      username = form.cleaned_data.get('username')
+      password = form.cleaned_data.get('password1')
+      user = authenticate(request, username=username, password=password)
+      login(request, user)
+      return HttpResponseRedirect(reverse('todo:index'))
+    
+  return render(request, 'todo/register.html')
+
 # go to the 127.0.0.1:8000/admin to access the settings about our application
 # to create a super user: python manage.py createsuperuser
 # superuser: 
-# name: test
-# password: 123456
-# user:
 # name: edwardwhite7
-# password: 123456
+# password: company pwd
+# user:
+# name: testuser
+# password: company pwd
 def login_user(request):
   if request.method == 'POST':
     username = request.POST.get('username')
@@ -111,6 +127,7 @@ def add_task(request):
 
       # create a task and save to db
       task = TaskModel(
+        user=request.user,
         name=form.cleaned_data['task'],
         description=form.cleaned_data['description'],
         priority=int((form.cleaned_data)['priority'])
