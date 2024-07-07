@@ -1,78 +1,53 @@
-{% extends 'todo/layout.html' %}
-
-{% block content %}
+{% extends 'todo/layout.html' %} {% block content %}
 <h1>What will you do today?</h1>
 
 <div class="input-container">
   <!-- the todo is from the urls/app_name = 'todo' -->
-  <form method="POST"
-        action="{% url 'todo:add_task' %}">
+  <form method="POST" action="{% url 'todo:add_task' %}">
     <!-- 
     make sure that the csrf token being sent along side our form submission to the backend
     to verify that we are the legitimate sender of form
     -->
-    {% csrf_token %}
-    {{ form }}
-    <button id="addButton"
-            class="btn btn-primary"
-            onclick="addTask()">Add</button>
+    {% csrf_token %} {{ form }}
+    <button id="addButton" class="btn btn-primary" onclick="addTask()">
+      Add
+    </button>
   </form>
 </div>
 
-
 <div id="lists-container">
-  <ul id="task-list-1"
-      class="task-list list-group">
+  <ul id="task-list-1" class="task-list list-group">
     <h4>Priority 1</h4>
-    {% for task in tasks %}
-    {% if task.priority == 1 %}
+    {% for task in tasks %} {% if task.priority == 1 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox"
-             class="form-check-input">
+      <input type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
-
-
     </li>
-    {% endif %}
-    {% endfor %}
+    {% endif %} {% endfor %}
   </ul>
 
-  <ul id="task-list-2"
-      class="task-list list-group">
+  <ul id="task-list-2" class="task-list list-group">
     <h4>Priority 2</h4>
-    {% for task in tasks %}
-    {% if task.priority == 2 %}
+    {% for task in tasks %} {% if task.priority == 2 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox"
-             class="form-check-input">
+      <input type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
-
-
     </li>
-    {% endif %}
-    {% endfor %}
+    {% endif %} {% endfor %}
   </ul>
 
-  <ul id="task-list-3"
-      class="task-list list-group">
+  <ul id="task-list-3" class="task-list list-group">
     <h4>Priority 3</h4>
-    {% for task in tasks %}
-    {% if task.priority == 3 %}
+    {% for task in tasks %} {% if task.priority == 3 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox"
-             class="form-check-input">
+      <input type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
-
-
     </li>
-    {% endif %}
-    {% endfor %}
+    {% endif %} {% endfor %}
   </ul>
-
-
 
   <!-- <ul id="task-list-1"
       class="task-list list-group">
@@ -88,6 +63,5 @@
       class="task-list list-group">
     <h4>Prority 3</h4>
   </ul> -->
-
 </div>
 {% endblock %}

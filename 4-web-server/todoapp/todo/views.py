@@ -21,8 +21,15 @@ def index(request):
   # return HttpResponse("<h1>Todo</h1>")
   # tasks2 = []
   taskform = TaskForm()
+  print('get tasks from sessions')
+  print(request.session['tasks'])
+
+  if not 'tasks' in request.session:
+    print('no tasks.....')
+    request.session['tasks'] = []
+
   ctx = {
-    "tasks": tasks,
+    "tasks": request.session['tasks'],
     "form": taskform
   }
 
@@ -47,6 +54,7 @@ def add_task(request):
     # create a general form inside our python code with data that sent to us prefiill to the form
     form = TaskForm(request.POST)
     if form.is_valid():
+      print('is valid')
       # {'task': 'fdsafads', 'description': 'fdsafdasfdasfa', 'priority': '1'}
       print(form.cleaned_data)
       # create a task that want to save
@@ -56,7 +64,11 @@ def add_task(request):
         "description": form.cleaned_data['description'],
         "priority": int((form.cleaned_data)['priority'])
       }
-      tasks.append(task)
+      request.session['tasks'].append(task)
+      print(request.session['tasks'])
 
   # the todo is from the urls/app_name = 'todo'
   return HttpResponseRedirect(reverse('todo:index'))
+
+
+
