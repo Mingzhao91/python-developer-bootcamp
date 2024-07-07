@@ -1,5 +1,6 @@
 {% extends 'todo/layout.html' %} {% block content %}
-<h1>What will you do today?</h1>
+<a href="{% url 'todo:logout' %}">Logout</a>
+<h1>What will you do today, {{ user }}?</h1>
 
 <div class="input-container">
   <!-- the todo is from the urls/app_name = 'todo' -->
