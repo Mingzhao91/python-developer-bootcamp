@@ -5,6 +5,7 @@
 const input = document.getElementById("input");
 const priority = document.getElementById("priority");
 const listsContainer = document.getElementById("lists-container");
+const csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
 function addTask() {
   const task = input.value;
@@ -35,6 +36,17 @@ function checkBoxClick(event) {
   console.log(event);
 
   if (event.target.tagName === "INPUT" && event.target.type === "checkbox") {
+    const taskId = event.target.id;
+    fetch("/todo/delete_task", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken
+      },
+      body: JSON.stringify({ taskId: taskId })
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
     const listItem = event.target.parentNode;
     const taskList = listItem.parentNode;
     taskList.removeChild(listItem);

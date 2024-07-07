@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
@@ -85,6 +86,16 @@ def login_user(request):
       return render(request, 'todo/login.html')
 
   return render(request, 'todo/login.html')
+
+def delete_task(request):
+  if request.method == 'POST':
+    body = json.loads(request.body)
+    task_id = body['taskId']
+    task = TaskModel.objects.get(id=task_id)
+    task.delete()
+    return HttpResponseRedirect(reverse('todo:index'))
+  
+  return HttpResponseRedirect(reverse('todo:index'))
 
 @login_required(login_url='todo:login')
 def logout_user(request):

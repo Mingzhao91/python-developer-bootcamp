@@ -22,7 +22,7 @@
     {% for task in tasks %} {% if task.priority == 1 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox" class="form-check-input" />
+      <input id="{{ task.id }}" type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
     </li>
     {% endif %} {% endfor %}
@@ -33,7 +33,7 @@
     {% for task in tasks %} {% if task.priority == 2 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox" class="form-check-input" />
+      <input id="{{ task.id }}" type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
     </li>
     {% endif %} {% endfor %}
@@ -44,7 +44,7 @@
     {% for task in tasks %} {% if task.priority == 3 %}
     <!-- go to the urls.py, look for a path with the name, task,   -->
     <li>
-      <input type="checkbox" class="form-check-input" />
+      <input id="{{ task.id }}" type="checkbox" class="form-check-input" />
       <span class="task-text">{{task.name}}</span>
     </li>
     {% endif %} {% endfor %}
