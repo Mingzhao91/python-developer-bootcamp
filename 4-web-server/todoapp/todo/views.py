@@ -65,6 +65,7 @@ def add_task(request):
         "priority": int((form.cleaned_data)['priority'])
       }
       request.session['tasks'].append(task)
+      request.session.save()
       print(request.session['tasks'])
 
   # the todo is from the urls/app_name = 'todo'
