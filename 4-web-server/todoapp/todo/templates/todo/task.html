@@ -1,14 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'todo/layout.html' %}
 
-<head>
-  <title>DevDo</title>
-</head>
+{% block content %}
 
-<body>
-  <h2>Task name is {{ task.name }}</h2>
-  <p>{{ task.description }}</p>
-</body>
+<h1>Task name is {{ task.name }}</h1>
+<p>{{ task.description }}</p>
 
-</html>
+{% endblock %}

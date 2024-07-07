@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
-
+from .forms import TaskForm
 # Create your views here.
 
 
 tasks = [
-  {"id": 1, "name": "Make video", "description":"make vid for course"},
-  {"id": 2, "name": "Do dishes", "description":"wash dishes"},
-  {"id": 3, "name": "Call mum", "description":"call mum fast"},
+  {"id": 1, "name": "Make video", "description":"make vid for course", "priority": 1},
+  {"id": 2, "name": "Do dishes", "description":"wash dishes", "priority": 2},
+  {"id": 3, "name": "Call mum", "description":"call mum fast", "priority": 3},
 ]
 
 def get_task_by_id(task_id):
@@ -20,8 +20,10 @@ def get_task_by_id(task_id):
 def index(request):
   # return HttpResponse("<h1>Todo</h1>")
   # tasks2 = []
+  taskform = TaskForm()
   ctx = {
-    "tasks": tasks
+    "tasks": tasks,
+    "form": taskform
   }
 
   return render(request, "todo/index.html", ctx)
@@ -36,3 +38,9 @@ def task(request, id):
 class AboutView(View):
   def get(self, request):
     return HttpResponse("This is the about page")
+  
+
+def add_task(request): 
+  print(request.POST)
+  # the todo is from the urls/app_name = 'todo'
+  return HttpResponseRedirect(reverse('todo:index'))
