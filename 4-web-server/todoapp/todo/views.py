@@ -2,6 +2,8 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 from .forms import TaskForm
+from .models import TaskModel
+
 # Create your views here.
 
 
@@ -11,11 +13,11 @@ tasks = [
   {"id": 3, "name": "Call mum", "description":"call mum fast", "priority": 3},
 ]
 
-def get_task_by_id(task_id):
-  for task in tasks:
-    if task["id"] == task_id:
-      return task
-    return None
+# def get_task_by_id(task_id):
+#   for task in tasks:
+#     if task["id"] == task_id:
+#       return task
+#     return None
 
 def index(request):
   # return HttpResponse("<h1>Todo</h1>")
@@ -24,12 +26,16 @@ def index(request):
   print('get tasks from sessions')
   print(request.session['tasks'])
 
-  if not 'tasks' in request.session:
-    print('no tasks.....')
-    request.session['tasks'] = []
+  # get tasks from sessions
+  # if not 'tasks' in request.session:
+  #   print('no tasks.....')
+  #   request.session['tasks'] = []
+
+  # get tasks from table
+  tasks = TaskModel.objects.all()
 
   ctx = {
-    "tasks": request.session['tasks'],
+    "tasks": tasks, #request.session['tasks'],
     "form": taskform
   }
 
@@ -37,7 +43,8 @@ def index(request):
 
 def task(request, id):
   ctx = {
-    "task": get_task_by_id(id)
+    # "task": get_task_by_id(id)
+    'task': TaskModel.objects.get(id=id)
   }
   return render(request, "todo/task.html", ctx)
 
@@ -54,19 +61,28 @@ def add_task(request):
     # create a general form inside our python code with data that sent to us prefiill to the form
     form = TaskForm(request.POST)
     if form.is_valid():
-      print('is valid')
       # {'task': 'fdsafads', 'description': 'fdsafdasfdasfa', 'priority': '1'}
       print(form.cleaned_data)
-      # create a task that want to save
-      task = {
-        "id": len(tasks) + 1,
-        "name": form.cleaned_data['task'],
-        "description": form.cleaned_data['description'],
-        "priority": int((form.cleaned_data)['priority'])
-      }
-      request.session['tasks'].append(task)
-      request.session.save()
-      print(request.session['tasks'])
+      # create a task that want to save to session
+      # task = {
+      #   "id": len(tasks) + 1,
+      #   "name": form.cleaned_data['task'],
+      #   "description": form.cleaned_data['description'],
+      #   "priority": int((form.cleaned_data)['priority'])
+      # }
+      # request.session['tasks'].append(task)
+      # request.session.save()
+      # print(request.session['tasks'])
+
+      # create a task and save to db
+      task = TaskModel(
+        name=form.cleaned_data['task'],
+        description=form.cleaned_data['description'],
+        priority=int((form.cleaned_data)['priority'])
+      )
+
+      # save the task to db
+      task.save()
 
   # the todo is from the urls/app_name = 'todo'
   return HttpResponseRedirect(reverse('todo:index'))
